@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    <bean id="logAspect" class="logger.LogAspect"/>
+   <!--<import resource="applicationContext.xml"/> нужно для проверки какие функциии подходят
+     исключается в связи с возникновением бесконечного цикла
+    -->
+    <aop:config>
+        <!-- включаем логгирование для всех методов исключая геттеры и сеттеры-->
+        <aop:pointcut id="anyModelMethod" expression="execution(public * model.*.*(..)) &amp;&amp; !execution(* get*(..)) &amp;&amp; !execution(* set*(..))"/>
+        <!-- включаем логгирование исключений для всех методов-->
+        <aop:pointcut id="throwException" expression="execution(* model.*.*(..))"/>
+
+        <!-- аспекты логгирования-->
+        <!-- логгирование попадания в метод-->
+        <aop:aspect id="log" ref="logAspect">
+            <aop:before method="beforeLog" pointcut-ref="anyModelMethod"/>
+        </aop:aspect>
+        <!-- логгирование исключений-->
+        <aop:aspect id="throwLog" ref="logAspect">
+            <aop:after-throwing method="afterTrowing" pointcut-ref="throwException" throwing="error"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
