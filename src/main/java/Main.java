@@ -15,6 +15,9 @@ public class Main {
         class2.getName();
         class1.setName("aewe");
         class2.setName("wqqwe");
+        class2.aroundTest("abbberea", "asdsafrr");
+        class2.around2Test("ole");
+        class2.around3Test("atest",2,"btest");
         class1.bum();
         context.close();
     }

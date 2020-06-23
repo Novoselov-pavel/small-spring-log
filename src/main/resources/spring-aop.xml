@@ -14,6 +14,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <aop:pointcut id="anyModelMethod" expression="execution(public * model.*.*(..)) &amp;&amp; !execution(* get*(..)) &amp;&amp; !execution(* set*(..))"/>
         <!-- включаем логгирование исключений для всех методов-->
         <aop:pointcut id="throwException" expression="execution(* model.*.*(..))"/>
+        <!-- включаем обертку для методов помеченных аннотацией  annotation.Around-->
+        <aop:pointcut id="aroundAnnotated" expression="@annotation(annotation.Around)"/>
+        <!-- включаем обертку для методов помеченных аннотацией  annotation.AroundWithParameters
+             (определяеться по типу указанному в сигнатуре вызываемого метода)-->
+        <aop:pointcut id="aroundWithParametersAnnotated" expression="execution(* model.*.*(..)) &amp;&amp; @annotation(around)"/>
+        <!-- включаем обертку для методов помеченных аннотацией  annotation.Around и с соответсвующим набором аргументов -->
+        <aop:pointcut id="aroundWithParameters" expression="@annotation(annotation.Around) &amp;&amp; args(arg1,arg2,..)"/>
 
         <!-- аспекты логгирования-->
         <!-- логгирование попадания в метод-->
@@ -23,6 +30,18 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <!-- логгирование исключений-->
         <aop:aspect id="throwLog" ref="logAspect">
             <aop:after-throwing method="afterTrowing" pointcut-ref="throwException" throwing="error"/>
+        </aop:aspect>
+        <!-- логирование производительности -->
+        <aop:aspect id="aroundLog" ref="logAspect">
+            <aop:around method="around" pointcut-ref="aroundAnnotated"/>
+        </aop:aspect>
+        <!-- логирование c аннотацией с параметрами -->
+        <aop:aspect id="aroundWithAnnotationWithParameters" ref="logAspect">
+            <aop:around method="aroundWithAnnotationWithParameters" pointcut-ref="aroundWithParametersAnnotated"/>
+        </aop:aspect>
+        <!-- логирование c аннотацией и с определнными параметрами фугкции -->
+        <aop:aspect id="aroundWithParameters" ref="logAspect">
+            <aop:around method="aroundWithParameter" pointcut-ref="aroundWithParameters" arg-names="point,arg1,arg2"/>
         </aop:aspect>
     </aop:config>
 </beans>
