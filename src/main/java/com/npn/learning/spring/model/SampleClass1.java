@@ -1,7 +1,16 @@
-package model;
+package com.npn.learning.spring.model;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+@Service("sampleClass1")
 public class SampleClass1 {
+
+    @Value("sampleName1")
     private String name;
+
+    public SampleClass1() {
+    }
 
     public SampleClass1(String name) {
         this.name = name;

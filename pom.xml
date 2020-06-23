@@ -52,8 +52,14 @@
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <artifactId>spring-context-support</artifactId>
             <version>${java.spring.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.2.7.RELEASE</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
         <dependency>

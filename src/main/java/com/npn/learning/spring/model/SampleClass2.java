@@ -1,10 +1,18 @@
-package model;
+package com.npn.learning.spring.model;
 
-import annotation.Around;
-import annotation.AroundWithParameters;
+import com.npn.learning.spring.annotation.Around;
+import com.npn.learning.spring.annotation.AroundWithParameters;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service("sampleClass2")
 public class SampleClass2 {
+
+    @Value("sampleName2")
     private String name;
+
+    public SampleClass2() {
+    }
 
     public SampleClass2(String name) {
         this.name = name;

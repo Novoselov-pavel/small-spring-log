@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <import resource="spring-aop.xml"/>
-    <!-- bean definitions here -->
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+<!-- https://docs.spring.io/spring/docs/2.5.x/reference/xsd-config.html -->
 
-    <bean id = "sampleClass1" class="model.SampleClass1">
-        <constructor-arg value="one"/>
-    </bean>
-    <bean id="sampleClass2" class="model.SampleClass2">
-        <constructor-arg value="two"/>
-    </bean>
-
+    <!-- указание места поиска пакетов -->
+    <context:component-scan base-package="com.npn.learning.spring"/>
+    <!-- указание что надо использовать автоматическое связывание для aspectj аннотаций-->
+    <aop:aspectj-autoproxy/>
 
 </beans>

@@ -1,13 +1,15 @@
-import model.SampleClass1;
-import model.SampleClass2;
+import com.npn.learning.spring.model.SampleClass1;
+import com.npn.learning.spring.model.SampleClass2;
+import com.npn.learning.spring.model.SuperSampleClass;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        SampleClass1 class1 = (SampleClass1) context.getBean("sampleClass1", SampleClass1.class);
-        SampleClass2 class2 = (SampleClass2) context.getBean("sampleClass2", SampleClass2.class);
+        SuperSampleClass superclass = (SuperSampleClass) context.getBean("superClass", SuperSampleClass.class);
+        SampleClass1 class1 = superclass.getSampleClass1();
+        SampleClass2 class2 = superclass.getSampleClass2();
         class1.sum("arg");
         class2.div("arg");
         class1.oops("ooo", "aaaa");
