@@ -18,9 +18,20 @@ public class LogAspect {
 
     /**
      * Создание условия через @Pointcut вызов по названию метода.
+     * ВНИМАНИЕ! Если в условиях что-нибудь исключено, то если данные объекты добавлены в другом @Pointcut то они все
+     * равно будут исключены из итоговой выборки.
+     * То есть выполнение происходит не: выборка по Pointcut1 + выборка по Pointcut2 а создаем общее выражение
+     * (Pointcut1 + Pointcut2) и потом это выражение выполняем
+     *
      */
     @Pointcut("execution(public * com.npn.learning.spring.model.*.*(..)) && !execution(* get*(..)) && !execution(* set*(..))")
     public void pointcutAllExcludeGetAndSet() {}
+
+    /**
+     * Создание условия через @Pointcut.
+     */
+    @Pointcut("execution(public * com.npn.learning.spring.model.interfacesample.*.*(..)))")
+    public void interfaceSampleMethod() {}
 
     /**
      * Логгирование входа в методы
@@ -28,6 +39,17 @@ public class LogAspect {
      */
     @Before("pointcutAllExcludeGetAndSet()")
     public void beforeLog(JoinPoint point) {
+        Signature signature = point.getSignature();
+        Logger logger = LoggerFactory.getLogger(signature.getDeclaringType());
+        logger.debug("Enter the method {} args {}",signature, point.getArgs());
+    }
+
+    /**
+     * Логгирование входа в методы см. примечание у @Pointcut
+     * @param point JoinPoint
+     */
+    @Before("interfaceSampleMethod()")
+    public void beforeLogInterface(JoinPoint point) {
         Signature signature = point.getSignature();
         Logger logger = LoggerFactory.getLogger(signature.getDeclaringType());
         logger.debug("Enter the method {} args {}",signature, point.getArgs());
@@ -91,7 +113,7 @@ public class LogAspect {
      * @return результат срабатывания функции
      * @throws Throwable
      */
-    @Around("args(arg1,arg2,..) && @annotation(com.npn.learning.spring.annotation.Around)")
+    @Around(value = "args(arg1,arg2,..) && @annotation(com.npn.learning.spring.annotation.Around)", argNames = "point,arg1,arg2")
     public Object aroundWithParameter(ProceedingJoinPoint point, String arg1, int arg2) throws Throwable {
         Signature signature = point.getSignature();
         Logger logger = LoggerFactory.getLogger("aroundWithParameters");
